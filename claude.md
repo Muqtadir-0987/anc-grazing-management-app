@@ -9,7 +9,7 @@ Read this before touching any file.
  
 **Client:** Australian Natural Capital (ANC), Toowong QLD
 **Contact:** Justin Howes — justin@aus-nc.com
-**Project:** BIS5015 Capstone — Masters of Business Information Systems
+**Project:** MBIS5015 Capstone — Masters of Business Information Systems
 **Status:** Development phase — Sprint 2 onward
  
 This app replaces a complex Excel spreadsheet (Grazing_Plan_Simple_V13) used by

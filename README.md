@@ -1,6 +1,6 @@
 # ANC Grazing Management App
 
-A mobile-first web application built for Australian Natural Capital (ANC) as part of the BIS5015 Capstone project. It replaces a complex Excel spreadsheet used by grazier clients to manage livestock, paddocks, and feed planning in the field.
+A mobile-first web application built for Australian Natural Capital (ANC) as part of the MBIS5015 Capstone project. It replaces a complex Excel spreadsheet used by grazier clients to manage livestock, paddocks, and feed planning in the field.
 
 ---
 
@@ -53,7 +53,7 @@ ANC grazier clients currently manage livestock, paddocks, and feed planning thro
 
 ## Team
 
-**Group 13 — BIS5015 Capstone 2026**
+**Group 13 — MBIS5015 Capstone 2026**
 
 | Name | Role |
 |---|---|
@@ -430,4 +430,4 @@ Make sure you're running Node.js 20+: `node --version`. If you have an older ver
 
 ---
 
-*BIS5015 Capstone — Masters of Business Information Systems — 2026*
+*MBIS5015 Capstone — Masters of Business Information Systems — 2026*
