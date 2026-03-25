@@ -1,0 +1,48 @@
+.nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background-color: var(--color-cream);
+  border-top: 1px solid #e7e5e4;
+  box-shadow: 0 -4px 20px rgba(46, 50, 48, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 0 8px;
+  z-index: 100;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: 4px 12px;
+  border-radius: 24px;
+  color: #78716c;
+  text-decoration: none;
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+  transition: color 0.15s, background-color 0.15s;
+}
+
+.item.active {
+  color: var(--color-green-mid);
+  background-color: rgba(74, 124, 89, 0.1);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  line-height: 15px;
+  text-align: center;
+}

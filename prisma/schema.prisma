@@ -1,0 +1,170 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ── Enums ──────────────────────────────────────────────────────────────────
+
+enum Role {
+  admin
+  grazier
+}
+
+enum SeasonType {
+  dormant
+  growing
+}
+
+enum EventType {
+  death
+  purchase
+  sale
+  transfer
+  vaccination
+  treatment
+}
+
+enum SrccStatus {
+  balanced
+  overstocked
+}
+
+// ── Models ─────────────────────────────────────────────────────────────────
+
+model User {
+  id           String    @id @default(uuid())
+  name         String
+  email        String    @unique
+  passwordHash String
+  role         Role      @default(grazier)
+  propertyId   String?
+  property     Property? @relation(fields: [propertyId], references: [id])
+  createdAt    DateTime  @default(now())
+
+  stockEvents  StockEvent[]
+}
+
+model Property {
+  id                 String   @id @default(uuid())
+  name               String
+  location           String?
+  totalAreaHa        Float
+  financialYearStart Int      @default(7) // month number (7 = July)
+  createdAt          DateTime @default(now())
+
+  users        User[]
+  paddocks     Paddock[]
+  mobs         Mob[]
+  grazingPlans GrazingPlan[]
+}
+
+model Paddock {
+  id         String   @id @default(uuid())
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  name       String
+  sizeHa     Float
+  stacRating Int      // must be 3, 6, 9, or 12
+  kgdmPerHa  Float    // calculated: stacRating × 11.25
+  totalKgdm  Float    // calculated: sizeHa × kgdmPerHa
+  createdAt  DateTime @default(now())
+
+  feedEstimates FeedEstimate[]
+  allocations   PaddockAllocation[]
+}
+
+model Mob {
+  id         String   @id @default(uuid())
+  propertyId String
+  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  name       String
+  createdAt  DateTime @default(now())
+
+  stockFlowEntries StockFlowEntry[]
+  stockEvents      StockEvent[]
+  allocations      PaddockAllocation[]
+}
+
+model StockClass {
+  id          String @id @default(uuid())
+  name        String @unique
+  minWeightKg Float
+  maxWeightKg Float
+
+  stockFlowEntries StockFlowEntry[]
+  stockEvents      StockEvent[]
+}
+
+model StockFlowEntry {
+  id              String     @id @default(uuid())
+  mobId           String
+  mob             Mob        @relation(fields: [mobId], references: [id], onDelete: Cascade)
+  stockClassId    String
+  stockClass      StockClass @relation(fields: [stockClassId], references: [id])
+  month           Int        // 1–12
+  year            Int
+  seasonType      SeasonType
+  numberOfAnimals Int
+  averageWeightKg Float
+  lsu             Float      // calculated: (numberOfAnimals × averageWeightKg) / 450
+  kgdmu           Float      // calculated: lsu × 8.5
+  kgdmTotal       Float      // calculated: kgdmu × numberOfAnimals
+  createdAt       DateTime   @default(now())
+}
+
+model StockEvent {
+  id              String     @id @default(uuid())
+  mobId           String
+  mob             Mob        @relation(fields: [mobId], references: [id], onDelete: Cascade)
+  stockClassId    String
+  stockClass      StockClass @relation(fields: [stockClassId], references: [id])
+  eventType       EventType
+  quantity        Int
+  date            DateTime
+  notes           String?
+  createdAt       DateTime   @default(now())
+  createdByUserId String
+  createdBy       User       @relation(fields: [createdByUserId], references: [id])
+}
+
+model GrazingPlan {
+  id            String     @id @default(uuid())
+  propertyId    String
+  property      Property   @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  seasonType    SeasonType
+  startDate     DateTime
+  endDate       DateTime
+  totalPlanDays Int        // calculated: diff in days
+  srccRatio     Float      // calculated: total LSU / total carrying capacity
+  srccStatus    SrccStatus // calculated: balanced or overstocked
+  createdAt     DateTime   @default(now())
+
+  allocations PaddockAllocation[]
+}
+
+model PaddockAllocation {
+  id                 String      @id @default(uuid())
+  planId             String
+  plan               GrazingPlan @relation(fields: [planId], references: [id], onDelete: Cascade)
+  paddockId          String
+  paddock            Paddock     @relation(fields: [paddockId], references: [id])
+  mobId              String
+  mob                Mob         @relation(fields: [mobId], references: [id])
+  grazePeriodDays    Float       // calculated: totalKgdm / mob daily demand
+  surplusDeficitKgdm Float       // calculated: totalKgdm - (mob demand × grazePeriodDays)
+  createdAt          DateTime    @default(now())
+}
+
+model FeedEstimate {
+  id                        String   @id @default(uuid())
+  paddockId                 String
+  paddock                   Paddock  @relation(fields: [paddockId], references: [id], onDelete: Cascade)
+  date                      DateTime
+  estimatedBiomassKgDmPerHa Float
+  growthRateKgDmPerHaPerDay Float
+  createdAt                 DateTime @default(now())
+}
