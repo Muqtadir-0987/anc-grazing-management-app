@@ -1,0 +1,615 @@
+.page {
+  min-height: 100vh;
+  background-color: var(--color-cream);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Top app bar ── */
+
+.topBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background-color: var(--color-cream);
+  border-bottom: 1px solid #e7e5e4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  z-index: 100;
+}
+
+.topBarBrand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.brandIcon {
+  width: 32px;
+  height: 32px;
+  background-color: #78a886;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  flex-shrink: 0;
+}
+
+.brandName {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 28px;
+  color: var(--color-green-mid);
+}
+
+.iconBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  min-width: var(--touch-target);
+  min-height: var(--touch-target);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  border-radius: 9999px;
+}
+
+.iconBtn:hover {
+  background-color: rgba(196, 200, 188, 0.2);
+}
+
+/* ── Main ── */
+
+.main {
+  margin-top: 64px;
+  padding: 32px 16px 160px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Stepper ── */
+
+.stepper {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  min-width: 0;
+}
+
+.stepGroup {
+  display: flex;
+  align-items: flex-start;
+  flex: 1;
+  min-width: 0;
+}
+
+.stepItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+}
+
+.stepInactive {
+  opacity: 0.4;
+}
+
+.stepCircle {
+  width: 32px;
+  height: 32px;
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.stepCircleDone {
+  background-color: var(--color-green-mid);
+  color: white;
+}
+
+.stepCircleActive {
+  border: 2px solid var(--color-green-mid);
+  color: var(--color-green-mid);
+}
+
+.stepCircleInactive {
+  border: 2px solid var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.stepLabel {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 15px;
+  text-align: center;
+  color: var(--color-text-primary);
+}
+
+.stepActive .stepLabel {
+  color: var(--color-green-mid);
+}
+
+.stepDivider {
+  height: 2px;
+  width: 32px;
+  background-color: var(--color-border);
+  margin-top: 15px;
+  flex-shrink: 0;
+  opacity: 0.6;
+}
+
+.stepDividerDone {
+  background-color: var(--color-green-mid);
+  opacity: 0.4;
+}
+
+/* ── Section header ── */
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 8px;
+}
+
+.sectionTitle {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 32px;
+  color: var(--color-text-primary);
+}
+
+.addBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 2px solid var(--color-green-mid);
+  background: none;
+  border-radius: var(--radius-pill);
+  padding: 10px 18px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--color-green-mid);
+  cursor: pointer;
+  min-height: var(--touch-target);
+  white-space: nowrap;
+}
+
+.addBtn:hover:not(:disabled) {
+  background-color: rgba(74, 124, 89, 0.05);
+}
+
+.addBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ── Paddock list ── */
+
+.paddockList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 16px;
+}
+
+/* ── Paddock card ── */
+
+.paddockCard {
+  background-color: #f5f1ea;
+  border: 1px solid rgba(196, 200, 188, 0.2);
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(46, 50, 48, 0.06);
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.paddockCardTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.paddockName {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 28px;
+  color: var(--color-text-primary);
+}
+
+.paddockSize {
+  font-size: 14px;
+  color: var(--color-text-muted);
+  line-height: 20px;
+}
+
+.paddockActions {
+  display: flex;
+  gap: 4px;
+}
+
+.paddockCardBottom {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* STAC read-only pills */
+
+.stacReadRow {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stacPills {
+  background-color: #eae6de;
+  border-radius: 16px;
+  padding: 4px;
+  display: flex;
+  gap: 0;
+}
+
+.stacPill {
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 12px;
+  color: #a8a29e;
+}
+
+.stacPillActive {
+  background-color: white;
+  color: var(--color-green-mid);
+  font-weight: 700;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Calculated value */
+
+.calculatedBox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.calculatedLabel {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+}
+
+.calculatedValue {
+  color: var(--color-green-mid);
+  text-align: right;
+}
+
+.calculatedNumber {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.calculatedUnit {
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 20px;
+}
+
+/* ── Inline add form ── */
+
+.addForm {
+  background-color: #f0ece4;
+  border: 2px dashed var(--color-border);
+  border-radius: 24px;
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.formGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.fieldGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.fieldLabel {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--color-text-muted);
+  padding-left: 4px;
+}
+
+.fieldInput {
+  height: 48px;
+  background-color: var(--color-cream);
+  border: none;
+  border-radius: var(--radius-pill);
+  padding: 0 16px;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-text-primary);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  outline: none;
+  width: 100%;
+}
+
+.fieldInput:focus {
+  box-shadow: 0 0 0 2px var(--color-green-mid);
+}
+
+.fieldInput::placeholder {
+  color: #6b7280;
+}
+
+.fieldInputError {
+  box-shadow: 0 0 0 2px var(--color-error);
+}
+
+.fieldError {
+  font-size: 12px;
+  color: var(--color-error);
+  padding-left: 4px;
+}
+
+.serverError {
+  font-size: 13px;
+  color: var(--color-error);
+  text-align: center;
+}
+
+/* STAC rating buttons in form */
+
+.stacGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.stacBtns {
+  display: flex;
+  gap: 8px;
+}
+
+.stacBtn {
+  flex: 1;
+  height: var(--touch-target);
+  background-color: var(--color-cream);
+  border: 1px solid rgba(196, 200, 188, 0.3);
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  color: #a8a29e;
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.stacBtn:hover {
+  border-color: var(--color-green-mid);
+  color: var(--color-green-mid);
+}
+
+.stacBtnActive {
+  background-color: var(--color-green-mid);
+  border-color: var(--color-green-mid);
+  color: white;
+}
+
+/* Form action buttons */
+
+.formActions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  padding-top: 8px;
+}
+
+.cancelBtn {
+  flex: 1;
+  height: var(--touch-target);
+  background: none;
+  border: none;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+}
+
+.savePaddockBtn {
+  flex: 2;
+  height: var(--touch-target);
+  background-color: var(--color-green-mid);
+  border: none;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 10px 15px -3px rgba(74, 124, 89, 0.2), 0 4px 6px -4px rgba(74, 124, 89, 0.2);
+  transition: opacity 0.15s;
+}
+
+.savePaddockBtn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ── Step 3 preview ── */
+
+.stepPreview {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.stepPreviewDivider {
+  border-top: 1px solid #e7e5e4;
+  margin: 0;
+}
+
+.dimmed {
+  opacity: 0.4;
+  pointer-events: none;
+  user-select: none;
+}
+
+.previewFields {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.previewField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.previewInput {
+  height: 48px;
+  background-color: #eae6de;
+  border-radius: var(--radius-pill);
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* Chip tags (stock classes) */
+
+.chipRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.chip {
+  background-color: #eae6de;
+  border: 1px solid rgba(196, 200, 188, 0.5);
+  border-radius: 9999px;
+  padding: 9px 17px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  color: #57534e;
+  cursor: default;
+}
+
+button.chip {
+  cursor: pointer;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.chipActive {
+  background-color: var(--color-green-mid);
+  border-color: var(--color-green-mid);
+  color: white;
+}
+
+/* Mobs form */
+
+.mobsForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.successMsg {
+  font-size: 13px;
+  color: var(--color-green-mid);
+  font-weight: 600;
+  text-align: center;
+}
+
+/* ── Sticky footer ── */
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: var(--color-cream);
+  border-top: 1px solid #e7e5e4;
+  padding: 17px 16px 16px;
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  z-index: 100;
+}
+
+.backBtn {
+  flex: 1;
+  max-width: 133px;
+  height: 60px;
+  background: none;
+  border: 2px solid #e7e5e4;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 16px;
+  color: #57534e;
+  cursor: pointer;
+}
+
+.continueBtn {
+  flex: 2;
+  max-width: 210px;
+  height: 60px;
+  background-color: var(--color-green-mid);
+  border: none;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 16px;
+  color: white;
+  cursor: pointer;
+  box-shadow: 0 20px 25px -5px rgba(74, 124, 89, 0.2), 0 8px 10px -6px rgba(74, 124, 89, 0.2);
+}
+
+.continueBtn:hover {
+  background-color: #3d6b4b;
+}
