@@ -24,7 +24,7 @@ export default function App() {
       <Route path="/closed-plan" element={<ComingSoon name="Closed Season Grazing Plan" />} />
       <Route path="/reports" element={<ComingSoon name="Reports" />} />
       <Route path="/admin/properties" element={<ComingSoon name="All Properties (Admin)" />} />
-      <Route path="*" element={<Navigate to="/dashboard" replace />} />
+      <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>
   )
 }
