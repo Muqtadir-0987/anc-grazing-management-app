@@ -4,7 +4,7 @@ import { useAuth } from '../hooks/useAuth'
 import styles from './Setup.module.css'
 
 const STAC_OPTIONS = [3, 6, 9, 12]
-// KgDM/ha = STAC × 11.25  (display only — server recalculates on save)
+// KgDM/ha = STAC × 11.25
 const kgdmPerHa = (stac) => stac * 11.25
 
 const STEPS = [
@@ -18,12 +18,25 @@ const STOCK_CLASSES = ['Calves', 'Weaners', 'Cows', 'Bulls', 'Cull Cows']
 // ── Empty form state ──
 const EMPTY_FORM = { name: '', sizeHa: '', stacRating: null }
 
+function loadPaddocks() {
+  try {
+    const stored = localStorage.getItem('anc_demo_paddocks')
+    return stored ? JSON.parse(stored) : []
+  } catch {
+    return []
+  }
+}
+
+function savePaddocksToStorage(paddocks) {
+  localStorage.setItem('anc_demo_paddocks', JSON.stringify(paddocks))
+}
+
 export default function Setup() {
-  const { token, user } = useAuth()
+  const { user } = useAuth()
   const navigate = useNavigate()
 
   const [step, setStep] = useState(2)
-  const [paddocks, setPaddocks] = useState([])
+  const [paddocks, setPaddocks] = useState(() => loadPaddocks())
   const [showAddForm, setShowAddForm] = useState(false)
   const [form, setForm] = useState(EMPTY_FORM)
   const [editingId, setEditingId] = useState(null)
@@ -31,20 +44,10 @@ export default function Setup() {
   const [saving, setSaving] = useState(false)
   const [serverError, setServerError] = useState('')
 
-  const propertyId = user?.propertyId
-
-  // Load existing paddocks
+  // Persist paddocks to localStorage whenever they change
   useEffect(() => {
-    if (!token || !propertyId) return
-    fetch(`/api/properties/${propertyId}/paddocks`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((r) => r.json())
-      .then((data) => {
-        if (Array.isArray(data)) setPaddocks(data)
-      })
-      .catch(() => {})
-  }, [token, propertyId])
+    savePaddocksToStorage(paddocks)
+  }, [paddocks])
 
   // ── Form validation ──
   function validate() {
@@ -56,8 +59,8 @@ export default function Setup() {
     return errors
   }
 
-  // ── Save paddock (add or update) ──
-  async function handleSave() {
+  // ── Save paddock (add or update) — DEMO MODE: local state only ──
+  function handleSave() {
     const errors = validate()
     if (Object.keys(errors).length) {
       setFormErrors(errors)
@@ -73,37 +76,16 @@ export default function Setup() {
       stacRating: form.stacRating,
     }
 
-    try {
-      const url = editingId
-        ? `/api/paddocks/${editingId}`
-        : `/api/properties/${propertyId}/paddocks`
-      const method = editingId ? 'PUT' : 'POST'
-
-      const res = await fetch(url, {
-        method,
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(payload),
-      })
-      const data = await res.json()
-      if (!res.ok) {
-        setServerError(data.error || 'Failed to save paddock.')
-        return
-      }
-
-      if (editingId) {
-        setPaddocks((prev) => prev.map((p) => (p.id === editingId ? data : p)))
-      } else {
-        setPaddocks((prev) => [...prev, data])
-      }
-      cancelForm()
-    } catch {
-      setServerError('Network error. Please try again.')
-    } finally {
-      setSaving(false)
+    if (editingId) {
+      setPaddocks((prev) =>
+        prev.map((p) => (p.id === editingId ? { ...p, ...payload } : p))
+      )
+    } else {
+      const newPaddock = { id: `local-${Date.now()}`, ...payload }
+      setPaddocks((prev) => [...prev, newPaddock])
     }
+    setSaving(false)
+    cancelForm()
   }
 
   function cancelForm() {
@@ -125,17 +107,9 @@ export default function Setup() {
     setFormErrors({})
   }
 
-  async function handleDelete(id) {
+  function handleDelete(id) {
     if (!window.confirm('Delete this paddock?')) return
-    try {
-      await fetch(`/api/paddocks/${id}`, {
-        method: 'DELETE',
-        headers: { Authorization: `Bearer ${token}` },
-      })
-      setPaddocks((prev) => prev.filter((p) => p.id !== id))
-    } catch {
-      setServerError('Could not delete paddock.')
-    }
+    setPaddocks((prev) => prev.filter((p) => p.id !== id))
   }
 
   function handleContinue() {
@@ -299,7 +273,7 @@ export default function Setup() {
           <div className={styles.stepPreviewDivider} />
           <h2 className={styles.sectionTitle}>Mobs and classes</h2>
           {step === 3 ? (
-            <MobsForm token={token} propertyId={propertyId} />
+            <MobsForm />
           ) : (
             <div className={styles.previewFields}>
               <div className={styles.previewField}>
@@ -380,8 +354,8 @@ function PaddockCard({ paddock, onEdit, onDelete }) {
   )
 }
 
-// ── Mobs form (step 3) ──
-function MobsForm({ token, propertyId }) {
+// ── Mobs form (step 3) — DEMO MODE: local state only ──
+function MobsForm() {
   const [mobName, setMobName] = useState('')
   const [selectedClasses, setSelectedClasses] = useState([])
   const [error, setError] = useState('')
@@ -393,33 +367,16 @@ function MobsForm({ token, propertyId }) {
     )
   }
 
-  async function handleSaveMob() {
+  function handleSaveMob() {
     if (!mobName.trim()) {
       setError('Mob name is required.')
       return
     }
     setError('')
-    try {
-      const res = await fetch(`/api/properties/${propertyId}/mobs`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ name: mobName.trim(), stockClasses: selectedClasses }),
-      })
-      if (!res.ok) {
-        const d = await res.json()
-        setError(d.error || 'Failed to save mob.')
-        return
-      }
-      setMobName('')
-      setSelectedClasses([])
-      setSaved(true)
-      setTimeout(() => setSaved(false), 2000)
-    } catch {
-      setError('Network error.')
-    }
+    setMobName('')
+    setSelectedClasses([])
+    setSaved(true)
+    setTimeout(() => setSaved(false), 2000)
   }
 
   return (
