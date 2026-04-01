@@ -15,26 +15,17 @@ export default function Login() {
     setError('')
     setLoading(true)
 
-    try {
-      const res = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
-      })
-      const data = await res.json()
-
-      if (!res.ok) {
-        setError(data.error || 'Sign in failed. Please try again.')
-        return
-      }
-
-      localStorage.setItem('anc_auth_token', data.token)
-      window.location.href = '/dashboard'
-    } catch {
-      setError('Unable to connect. Please check your internet connection.')
-    } finally {
+    // DEMO MODE — no backend required
+    await new Promise(r => setTimeout(r, 600))
+    if (!email || !password) {
+      setError('Please enter your email and password.')
       setLoading(false)
+      return
     }
+    const mockToken = 'eyJhbGciOiJIUzI1NiJ9.eyJ1c2VySWQiOiIxIiwicm9sZSI6ImdyYXppZXIiLCJwcm9wZXJ0eUlkIjoiMSIsImV4cCI6OTk5OTk5OTk5OX0.demo'
+    localStorage.setItem('anc_auth_token', mockToken)
+    setLoading(false)
+    window.location.href = '/dashboard'
   }
 
   return (

@@ -20,26 +20,27 @@ export default function Dashboard() {
   const [error, setError] = useState('')
 
   useEffect(() => {
-    if (!token) {
-      navigate('/login')
-      return
-    }
-
-    fetch('/api/dashboard', {
-      headers: { Authorization: `Bearer ${token}` },
+    // DEMO MODE — mock data, no backend required
+    setData({
+      propertyName: 'Granite Downs',
+      seasonType: 'dormant',
+      feedDaysRemaining: 47,
+      totalKgdmDemand: 3840,
+      totalLsu: 320,
+      activePaddocks: 6,
+      srcc: 0.91,
+      srccStatus: 'balanced',
+      alerts: [
+        'SR:CC at 0.91 — approaching threshold. Review paddock allocation for North Flats mob.',
+      ],
+      mobs: [
+        { id: '1', name: 'North Flats Mob', headCount: 120, paddockName: 'Paddock 14B' },
+        { id: '2', name: 'Hill Country Steers', headCount: 85, paddockName: 'Ridge View' },
+        { id: '3', name: 'Replacement Heifers', headCount: 115, paddockName: 'The Gums' },
+      ],
     })
-      .then((res) => {
-        if (!res.ok) throw new Error('Failed to load dashboard')
-        return res.json()
-      })
-      .then((json) => {
-        // Cache mob data for offline use
-        if (json.mobs) localStorage.setItem('anc_mobs', JSON.stringify(json.mobs))
-        setData(json)
-      })
-      .catch((err) => setError(err.message))
-      .finally(() => setLoading(false))
-  }, [token, navigate])
+    setLoading(false)
+  }, [])
 
   if (loading) return <LoadingScreen />
   if (error) return <ErrorScreen message={error} />
