@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styles from './Login.module.css'
 import logoIcon from '../assets/logo-icon.svg'
 
@@ -9,6 +9,11 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
+
+  // Clear any stale session so the login screen always starts fresh
+  useEffect(() => {
+    localStorage.removeItem('anc_auth_token')
+  }, [])
 
   async function handleSubmit(e) {
     e.preventDefault()

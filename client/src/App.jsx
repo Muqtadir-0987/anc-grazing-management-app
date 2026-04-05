@@ -2,12 +2,14 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Setup from './pages/Setup'
+import BottomNav from './components/BottomNav'
 
 // Placeholder pages — to be replaced screen by screen
 const Placeholder = ({ name }) => (
-  <div style={{ padding: '120px 24px 100px', fontFamily: 'sans-serif', color: '#4a4e4a' }}>
-    <h2>{name}</h2>
-    <p>Coming soon.</p>
+  <div style={{ paddingTop: 100, paddingBottom: 100, paddingLeft: 24, paddingRight: 24, fontFamily: 'var(--font-body)', color: 'var(--color-text-secondary)', textAlign: 'center' }}>
+    <h2 style={{ fontFamily: 'var(--font-heading)', color: 'var(--color-text-primary)', marginBottom: 8 }}>{name}</h2>
+    <p>Coming in the next sprint.</p>
+    <BottomNav />
   </div>
 )
 
