@@ -5,6 +5,7 @@ import Setup from './pages/Setup'
 import StockFlow from './pages/StockFlow'
 import FeedDemand from './pages/FeedDemand'
 import Reports from './pages/Reports'
+import LogEvent from './pages/LogEvent'
 import BottomNav from './components/BottomNav'
 
 // Placeholder pages — to be replaced screen by screen
@@ -21,7 +22,7 @@ export default function App() {
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/log-event" element={<Placeholder name="Field Event Log" />} />
+      <Route path="/log-event" element={<LogEvent />} />
       <Route path="/stock-flow" element={<StockFlow />} />
       <Route path="/feed-demand" element={<FeedDemand />} />
       <Route path="/closed-plan" element={<Placeholder name="Closed Season Grazing Plan" />} />
