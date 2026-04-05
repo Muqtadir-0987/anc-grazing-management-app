@@ -6,6 +6,7 @@ import StockFlow from './pages/StockFlow'
 import FeedDemand from './pages/FeedDemand'
 import Reports from './pages/Reports'
 import LogEvent from './pages/LogEvent'
+import ClosedPlan from './pages/ClosedPlan'
 import BottomNav from './components/BottomNav'
 
 // Placeholder pages — to be replaced screen by screen
@@ -25,7 +26,7 @@ export default function App() {
       <Route path="/log-event" element={<LogEvent />} />
       <Route path="/stock-flow" element={<StockFlow />} />
       <Route path="/feed-demand" element={<FeedDemand />} />
-      <Route path="/closed-plan" element={<Placeholder name="Closed Season Grazing Plan" />} />
+      <Route path="/closed-plan" element={<ClosedPlan />} />
       <Route path="/reports" element={<Reports />} />
       <Route path="/setup" element={<Setup />} />
       <Route path="/admin/properties" element={<Placeholder name="All Properties (Admin)" />} />
