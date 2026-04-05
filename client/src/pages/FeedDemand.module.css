@@ -1,0 +1,598 @@
+/* ── Page shell ─────────────────────────────────────────────────────────── */
+
+.page {
+  min-height: 100vh;
+  background-color: var(--color-cream);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Top bar ────────────────────────────────────────────────────────────── */
+
+.topBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background-color: var(--color-cream);
+  border-bottom: 1px solid rgba(196, 200, 188, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 20px;
+  z-index: 100;
+}
+
+.topBarLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  background-color: #78a886;
+  border: 2px solid rgba(74, 124, 89, 0.2);
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatarInitial {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 16px;
+  color: #fff;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+.brandName {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 20px;
+  color: #4a7c59;
+  line-height: 1.2;
+}
+
+.bellBtn {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #4a4e4a;
+  border-radius: 9999px;
+  padding: 0;
+}
+
+.bellBtn:hover {
+  background-color: rgba(74, 124, 89, 0.08);
+}
+
+/* ── Scrollable main area ───────────────────────────────────────────────── */
+
+.main {
+  padding-top: 80px;
+  padding-bottom: 100px;
+  padding-left: 16px;
+  padding-right: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+/* ── Page header ────────────────────────────────────────────────────────── */
+
+.pageHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 8px;
+}
+
+.pageTitle {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 30px;
+  line-height: 1.15;
+  color: #2e3230;
+  margin: 0;
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.metaText {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 16px;
+  color: #4a4e4a;
+  line-height: 1.4;
+}
+
+/* ── Season total cards ─────────────────────────────────────────────────── */
+
+.seasonCards {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.dormantCard {
+  background-color: #eae6de;
+  border: 1px solid rgba(196, 200, 188, 0.2);
+  border-radius: 24px;
+  padding: 25px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.growingCard {
+  background-color: rgba(74, 124, 89, 0.05);
+  border: 1px solid rgba(74, 124, 89, 0.1);
+  border-radius: 24px;
+  padding: 25px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.seasonLabel {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #705c30;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.seasonLabelGrowing {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #4a7c59;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.seasonValueRow {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.seasonValueDormant {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 1.1;
+  color: #2e3230;
+}
+
+.seasonValueGrowing {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 1.1;
+  color: #4a7c59;
+}
+
+.seasonUnit {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 18px;
+  color: #4a4e4a;
+  line-height: 1;
+}
+
+.seasonFooter {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.seasonFooterTextDormant {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 14px;
+  color: #705c30;
+}
+
+.seasonFooterTextGrowing {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 14px;
+  color: #4a7c59;
+}
+
+/* ── Chart card ─────────────────────────────────────────────────────────── */
+
+.chartCard {
+  background-color: #f0ece4;
+  border-radius: 24px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.chartHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+
+.chartTitleStack {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.chartTitleLine1 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 20px;
+  color: #2e3230;
+  line-height: 1.2;
+}
+
+.chartTitleLine2 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 20px;
+  color: #2e3230;
+  line-height: 1.2;
+}
+
+.chartForecastStack {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0;
+}
+
+.forecastLine1 {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #74796e;
+  line-height: 1.4;
+}
+
+.forecastLine2 {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: #74796e;
+  line-height: 1.4;
+}
+
+/* Chart canvas container */
+
+.chartAreaWrap {
+  background-color: #f5f1ea;
+  border: 1px solid rgba(196, 200, 188, 0.3);
+  border-radius: 16px;
+  height: 256px;
+  overflow: hidden;
+  position: relative;
+}
+
+.forecastPivotLabel {
+  position: absolute;
+  left: 25%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--font-body);
+  font-size: 10px;
+  color: #4a7c59;
+  font-weight: 400;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* X-axis labels row */
+
+.xAxisLabels {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.xAxisLabels span {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 400;
+  color: #74796e;
+  letter-spacing: 0.3px;
+}
+
+/* Feed days remaining row */
+
+.feedDaysRow {
+  background-color: rgba(112, 92, 48, 0.1);
+  border: 1px solid rgba(112, 92, 48, 0.3);
+  border-radius: 16px;
+  padding: 17px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.feedDaysLeft {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.feedDaysText {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.feedDaysLabel {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 14px;
+  color: #2e3230;
+  line-height: 1.3;
+}
+
+.feedDaysSubtext {
+  font-family: var(--font-body);
+  font-style: italic;
+  font-size: 12px;
+  color: #4a4e4a;
+  line-height: 1.3;
+}
+
+.feedDaysRight {
+  display: flex;
+  align-items: baseline;
+  gap: 5px;
+}
+
+.feedDaysValue {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 24px;
+  color: #705c30;
+  line-height: 1;
+}
+
+.feedDaysUnit {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  color: #705c30;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ── Mob breakdown table ────────────────────────────────────────────────── */
+
+.tableCard {
+  background-color: #f0ece4;
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.tableHeader {
+  padding: 24px 24px 25px;
+  border-bottom: 1px solid rgba(196, 200, 188, 0.25);
+}
+
+.tableTitle {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 20px;
+  color: #2e3230;
+  margin: 0;
+}
+
+.tableScrollWrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.table {
+  width: 100%;
+  min-width: 490px;
+  border-collapse: collapse;
+}
+
+/* Table head */
+
+.tableHeadRow {
+  background-color: #eae6de;
+}
+
+.thMobName {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #74796e;
+  padding: 16px 24px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.thRight {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 12px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: #74796e;
+  padding: 16px 24px;
+  text-align: right;
+  white-space: nowrap;
+}
+
+/* Table body */
+
+.tableBodyRow {
+  border-top: 1px solid rgba(196, 200, 188, 0.1);
+}
+
+.tdMobName {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 16px;
+  color: #2e3230;
+  padding: 16px 24px;
+  text-align: left;
+  vertical-align: top;
+  min-width: 140px;
+}
+
+.tdRight {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 16px;
+  color: #4a4e4a;
+  padding: 16px 24px;
+  text-align: right;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.tdRightGreen {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 16px;
+  color: #4a7c59;
+  padding: 16px 24px;
+  text-align: right;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+/* Table footer */
+
+.tableFootRow {
+  background-color: rgba(228, 224, 216, 0.3);
+  border-top: 1px solid rgba(196, 200, 188, 0.15);
+}
+
+.tdFootLabel {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 16px;
+  color: #2e3230;
+  padding: 16px 24px;
+  text-align: left;
+  vertical-align: top;
+}
+
+.grandTotalsLabel {
+  display: block;
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 16px;
+  color: #2e3230;
+  line-height: 1.3;
+}
+
+.tdFootRight {
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 16px;
+  color: #4a4e4a;
+  padding: 16px 24px;
+  text-align: right;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+.tdFootRightGreen {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 18px;
+  color: #4a7c59;
+  padding: 16px 24px;
+  text-align: right;
+  vertical-align: top;
+  white-space: nowrap;
+}
+
+/* ── Export buttons ─────────────────────────────────────────────────────── */
+
+.exportButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-bottom: 8px;
+}
+
+.exportBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: var(--touch-target);
+  padding: 14px;
+  background: none;
+  border: 2px solid #4a7c59;
+  border-radius: 24px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-weight: 300;
+  font-size: 16px;
+  color: #4a7c59;
+  transition: background-color 0.15s ease;
+}
+
+.exportBtn:hover {
+  background-color: rgba(74, 124, 89, 0.06);
+}
+
+.exportBtn:active {
+  background-color: rgba(74, 124, 89, 0.12);
+}
+
+/* ── Utility ─────────────────────────────────────────────────────────────── */
+
+.centred {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+.loadingText {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: #4a4e4a;
+  text-align: center;
+}
