@@ -1,0 +1,628 @@
+/* ── Page shell ───────────────────────────────────────────────────────────── */
+
+.page {
+  min-height: 100vh;
+  background-color: var(--color-cream);
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Top bar ──────────────────────────────────────────────────────────────── */
+
+.topBar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background-color: var(--color-cream);
+  border-bottom: 1px solid rgba(196, 200, 188, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 16px;
+  z-index: 100;
+}
+
+.topBarLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.backBtn {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-green-dark);
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+
+.backBtn:hover {
+  background-color: rgba(59, 109, 17, 0.08);
+}
+
+.topBarTitle {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.titleText {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 1.25;
+  color: var(--color-green-dark);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.subtitleText {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+  line-height: 1.2;
+}
+
+.topBarRight {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.iconBtn {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-text-secondary);
+  border-radius: 9999px;
+}
+
+.iconBtn:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  background-color: var(--color-cream);
+  border: 1px solid var(--color-border);
+  border-radius: 9999px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarInitial {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 13px;
+  color: var(--color-text-secondary);
+}
+
+/* ── Scrollable main ──────────────────────────────────────────────────────── */
+
+.main {
+  margin-top: 64px;
+  padding: 16px 0 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  flex: 1;
+}
+
+/* ── Season indicator banners ─────────────────────────────────────────────── */
+
+.seasonGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 0 16px;
+}
+
+.seasonCardDormant {
+  background-color: rgba(196, 166, 106, 0.2);
+  border: 1px solid rgba(112, 92, 48, 0.2);
+  border-radius: 16px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.seasonCardGrowing {
+  background-color: rgba(120, 168, 134, 0.2);
+  border: 1px solid rgba(74, 124, 89, 0.2);
+  border-radius: 16px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.accentBarDormant {
+  display: block;
+  width: 8px;
+  height: 32px;
+  background-color: #705c30;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+
+.accentBarGrowing {
+  display: block;
+  width: 8px;
+  height: 32px;
+  background-color: #4a7c59;
+  border-radius: 9999px;
+  flex-shrink: 0;
+}
+
+.seasonLabelDormant {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+  color: #705c30;
+  line-height: 1.2;
+}
+
+.seasonLabelGrowing {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 10px;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+  color: #4a7c59;
+  line-height: 1.2;
+}
+
+.seasonHeadingDormant {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 500;
+  color: #554020;
+  line-height: 1.3;
+  margin-top: 2px;
+}
+
+.seasonHeadingGrowing {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 500;
+  color: #2e6641;
+  line-height: 1.3;
+  margin-top: 2px;
+}
+
+/* ── Mob selector tabs ────────────────────────────────────────────────────── */
+
+.mobTabsWrapper {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  padding: 0 16px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.mobTabsWrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.mobTab {
+  flex-shrink: 0;
+  height: 38px;
+  min-width: var(--touch-target);
+  padding: 0 20px;
+  border-radius: 9999px;
+  border: 1px solid #c4c8bc;
+  background-color: #ffffff;
+  color: #57534e;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 14px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.mobTabActive {
+  background-color: #4a7c59;
+  border-color: #4a7c59;
+  color: #ffffff;
+  font-weight: 700;
+  box-shadow: 0 2px 8px rgba(74, 124, 89, 0.3);
+}
+
+/* ── Data table card ──────────────────────────────────────────────────────── */
+
+.tableCard {
+  margin: 0 16px;
+  background-color: #ffffff;
+  border: 1px solid rgba(196, 200, 188, 0.2);
+  border-radius: 24px;
+  box-shadow: 0 4px 20px rgba(46, 50, 48, 0.06);
+  overflow: hidden;
+}
+
+.tableScroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(196, 200, 188, 0.5) transparent;
+}
+
+.tableScroll::-webkit-scrollbar {
+  height: 4px;
+}
+
+.tableScroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.tableScroll::-webkit-scrollbar-thumb {
+  background-color: rgba(196, 200, 188, 0.5);
+  border-radius: 9999px;
+}
+
+.table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+/* ── Table header ─────────────────────────────────────────────────────────── */
+
+.tableHeaderRow {
+  background-color: #f0ece4;
+}
+
+.th {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.55px;
+  color: #4a4e4a;
+  padding: 16px;
+  text-align: left;
+  white-space: nowrap;
+}
+
+.thClass {
+  position: sticky;
+  left: 0;
+  background-color: #f0ece4;
+  min-width: 120px;
+  z-index: 10;
+}
+
+/* ── Month header rows ────────────────────────────────────────────────────── */
+
+.monthRowDormant {
+  background-color: rgba(196, 166, 106, 0.1);
+}
+
+.monthRowGrowing {
+  background-color: rgba(120, 168, 134, 0.1);
+}
+
+.monthCellDormant {
+  padding: 8px 16px;
+  border-top: 1px solid rgba(196, 200, 188, 0.15);
+}
+
+.monthCellGrowing {
+  padding: 8px 16px;
+  border-top: 1px solid rgba(196, 200, 188, 0.15);
+}
+
+.monthCellInner {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.monthLabel {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.seasonTagDormant {
+  color: #705c30;
+}
+
+.seasonTagGrowing {
+  color: #4a7c59;
+}
+
+/* ── Data rows ────────────────────────────────────────────────────────────── */
+
+.dataRow {
+  border-top: 1px solid rgba(196, 200, 188, 0.1);
+}
+
+.dataRow:hover {
+  background-color: rgba(250, 246, 240, 0.6);
+}
+
+.tdClass {
+  position: sticky;
+  left: 0;
+  background-color: #ffffff;
+  border-right: 1px solid rgba(196, 200, 188, 0.1);
+  padding: 16px;
+  font-family: var(--font-body);
+  font-weight: 500;
+  font-size: 16px;
+  color: #44403c;
+  white-space: nowrap;
+  min-width: 120px;
+  z-index: 5;
+}
+
+.dataRow:hover .tdClass {
+  background-color: rgba(250, 246, 240, 0.6);
+}
+
+.tdInput {
+  padding: 10px 12px;
+  vertical-align: middle;
+}
+
+.inputWrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.cellInput {
+  width: 80px;
+  height: 38px;
+  background-color: #faf6f0;
+  border: 1.5px solid transparent;
+  border-radius: 16px;
+  text-align: center;
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 14px;
+  color: #2e3230;
+  padding: 0 10px;
+  outline: none;
+  transition: border-color 0.15s ease;
+  /* Hide number input spinners */
+  -moz-appearance: textfield;
+}
+
+.cellInput::-webkit-inner-spin-button,
+.cellInput::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.cellInput::placeholder {
+  color: #a8a29e;
+  font-weight: 400;
+}
+
+.cellInput:focus {
+  border-color: #4a7c59;
+}
+
+.cellInputError {
+  border-color: #b83230;
+  background-color: rgba(255, 218, 216, 0.2);
+  color: #b83230;
+}
+
+.errorBadge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  width: 16px;
+  height: 16px;
+  background-color: #b83230;
+  border-radius: 9999px;
+  color: #ffffff;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.tdReadonly {
+  padding: 16px;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 14px;
+  color: #78716c;
+  background-color: rgba(250, 250, 249, 0.5);
+  white-space: nowrap;
+  border-top: 1px solid rgba(196, 200, 188, 0.08);
+}
+
+.tdTotal {
+  padding: 16px;
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  color: #4a7c59;
+  background-color: rgba(250, 250, 249, 0.5);
+  white-space: nowrap;
+  border-top: 1px solid rgba(196, 200, 188, 0.08);
+}
+
+.savingDot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background-color: #4a7c59;
+  border-radius: 9999px;
+  animation: pulse 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes pulse {
+  from { opacity: 0.3; }
+  to { opacity: 1; }
+}
+
+/* ── Weight range warning card ────────────────────────────────────────────── */
+
+.warningCard {
+  margin: 0 16px;
+  background-color: rgba(255, 218, 216, 0.3);
+  border: 1px solid rgba(184, 50, 48, 0.2);
+  border-radius: 24px;
+  padding: 12px 17px;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.warningIcon {
+  display: flex;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.warningTitle {
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 14px;
+  color: #690005;
+  margin-bottom: 4px;
+}
+
+.warningDesc {
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 12px;
+  color: #690005;
+  opacity: 0.8;
+  line-height: 1.4;
+  margin-top: 2px;
+}
+
+/* ── FAQ accordion ────────────────────────────────────────────────────────── */
+
+.faqCard {
+  margin: 0 16px;
+  background-color: #f5f1ea;
+  border: 1px solid rgba(196, 200, 188, 0.1);
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.faqBtn {
+  width: 100%;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  min-height: var(--touch-target);
+}
+
+.faqTitle {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 500;
+  color: #4a7c59;
+}
+
+.faqChevron {
+  display: flex;
+  color: #4a7c59;
+  transition: transform 0.2s ease;
+}
+
+.faqContent {
+  padding: 0 20px 20px;
+}
+
+.faqList {
+  margin: 0 0 12px 0;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.faqList li {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: #44403c;
+  line-height: 1.5;
+}
+
+.faqNote {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* ── FAB ──────────────────────────────────────────────────────────────────── */
+
+.fab {
+  position: fixed;
+  bottom: 96px;
+  right: 24px;
+  width: 56px;
+  height: 56px;
+  border-radius: 9999px;
+  background-color: #4a7c59;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  z-index: 50;
+  transition: background-color 0.15s ease, transform 0.15s ease;
+}
+
+.fab:hover {
+  background-color: var(--color-green-dark);
+  transform: scale(1.05);
+}
+
+.fab:active {
+  transform: scale(0.96);
+}
