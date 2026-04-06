@@ -18,11 +18,31 @@ const STOCK_CLASSES = ['Calves', 'Weaners', 'Cows', 'Bulls', 'Cull Cows']
 // ── Empty form state ──
 const EMPTY_FORM = { name: '', sizeHa: '', stacRating: null }
 
+const MONTHS = [
+  'January','February','March','April','May','June',
+  'July','August','September','October','November','December',
+]
+
 export default function Setup() {
   const { token, user } = useAuth()
   const navigate = useNavigate()
 
-  const [step, setStep] = useState(2)
+  // Step 1 starts at 1 so the property is created before any paddocks
+  const [step, setStep] = useState(1)
+
+  // propertyId is resolved from: created in step 1 > existing on user JWT
+  const [createdPropertyId, setCreatedPropertyId] = useState(null)
+  const propertyId = createdPropertyId || user?.propertyId
+
+  // Step 1 — property details
+  const [propForm, setPropForm] = useState({
+    name: '', location: '', totalAreaHa: '', financialYearStart: 7,
+  })
+  const [propErrors, setPropErrors] = useState({})
+  const [propSaving, setPropSaving] = useState(false)
+  const [propServerError, setPropServerError] = useState('')
+
+  // Step 2 — paddocks
   const [paddocks, setPaddocks] = useState([])
   const [showAddForm, setShowAddForm] = useState(false)
   const [form, setForm] = useState(EMPTY_FORM)
@@ -31,20 +51,58 @@ export default function Setup() {
   const [saving, setSaving] = useState(false)
   const [serverError, setServerError] = useState('')
 
-  const propertyId = user?.propertyId
-
-  // Load existing paddocks
+  // If the user already has a propertyId (grazier returning to setup), skip step 1
   useEffect(() => {
-    if (!token || !propertyId) return
+    if (user?.propertyId) setStep(2)
+  }, [user])
+
+  // Load existing paddocks when we have a propertyId and are on step 2+
+  useEffect(() => {
+    if (!token || !propertyId || step < 2) return
     fetch(`/api/properties/${propertyId}/paddocks`, {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((r) => r.json())
-      .then((data) => {
-        if (Array.isArray(data)) setPaddocks(data)
-      })
+      .then((data) => { if (Array.isArray(data)) setPaddocks(data) })
       .catch(() => {})
-  }, [token, propertyId])
+  }, [token, propertyId, step])
+
+  // ── Step 1: create property ──
+  function validateProp() {
+    const errors = {}
+    if (!propForm.name.trim()) errors.name = 'Property name is required.'
+    if (!propForm.totalAreaHa || isNaN(Number(propForm.totalAreaHa)) || Number(propForm.totalAreaHa) <= 0)
+      errors.totalAreaHa = 'Enter a valid area greater than 0.'
+    return errors
+  }
+
+  async function handleCreateProperty() {
+    const errors = validateProp()
+    if (Object.keys(errors).length) { setPropErrors(errors); return }
+    setPropErrors({})
+    setPropSaving(true)
+    setPropServerError('')
+    try {
+      const res = await fetch('/api/properties', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+        body: JSON.stringify({
+          name: propForm.name.trim(),
+          location: propForm.location.trim() || undefined,
+          totalAreaHa: Number(propForm.totalAreaHa),
+          financialYearStart: Number(propForm.financialYearStart),
+        }),
+      })
+      const data = await res.json()
+      if (!res.ok) { setPropServerError(data.error || 'Failed to create property.'); return }
+      setCreatedPropertyId(data.id)
+      setStep(2)
+    } catch {
+      setPropServerError('Network error. Please try again.')
+    } finally {
+      setPropSaving(false)
+    }
+  }
 
   // ── Form validation ──
   function validate() {
@@ -139,7 +197,8 @@ export default function Setup() {
   }
 
   function handleContinue() {
-    if (step === 2) setStep(3)
+    if (step === 1) handleCreateProperty()
+    else if (step === 2) setStep(3)
     else navigate('/dashboard')
   }
 
@@ -187,6 +246,82 @@ export default function Setup() {
               </div>
             )
           })}
+        </div>
+
+        {/* ── Step 1: Property details ── */}
+        <div className={step === 1 ? undefined : styles.dimmed}>
+          <div className={styles.sectionHeader}>
+            <h2 className={styles.sectionTitle}>Property details</h2>
+          </div>
+          {step === 1 ? (
+            <div className={styles.addForm}>
+              <div className={styles.formGrid}>
+                <div className={styles.fieldGroup}>
+                  <label className={styles.fieldLabel} htmlFor="prop-name">Property Name</label>
+                  <input
+                    id="prop-name"
+                    className={`${styles.fieldInput} ${propErrors.name ? styles.fieldInputError : ''}`}
+                    placeholder="e.g. Granite Downs"
+                    value={propForm.name}
+                    onChange={e => setPropForm(f => ({ ...f, name: e.target.value }))}
+                  />
+                  {propErrors.name && <p className={styles.fieldError}>{propErrors.name}</p>}
+                </div>
+                <div className={styles.fieldGroup}>
+                  <label className={styles.fieldLabel} htmlFor="prop-area">Total Area (ha)</label>
+                  <input
+                    id="prop-area"
+                    type="number"
+                    min="0"
+                    step="0.1"
+                    className={`${styles.fieldInput} ${propErrors.totalAreaHa ? styles.fieldInputError : ''}`}
+                    placeholder="0.0"
+                    value={propForm.totalAreaHa}
+                    onChange={e => setPropForm(f => ({ ...f, totalAreaHa: e.target.value }))}
+                  />
+                  {propErrors.totalAreaHa && <p className={styles.fieldError}>{propErrors.totalAreaHa}</p>}
+                </div>
+              </div>
+              <div className={styles.fieldGroup}>
+                <label className={styles.fieldLabel} htmlFor="prop-location">Location <span style={{ fontWeight: 400, opacity: 0.6 }}>(optional)</span></label>
+                <input
+                  id="prop-location"
+                  className={styles.fieldInput}
+                  placeholder="e.g. Longreach QLD"
+                  value={propForm.location}
+                  onChange={e => setPropForm(f => ({ ...f, location: e.target.value }))}
+                />
+              </div>
+              <div className={styles.fieldGroup}>
+                <label className={styles.fieldLabel} htmlFor="prop-fy">Financial Year Start</label>
+                <select
+                  id="prop-fy"
+                  className={styles.fieldInput}
+                  value={propForm.financialYearStart}
+                  onChange={e => setPropForm(f => ({ ...f, financialYearStart: Number(e.target.value) }))}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {MONTHS.map((m, i) => (
+                    <option key={i + 1} value={i + 1}>{m}</option>
+                  ))}
+                </select>
+              </div>
+              {propServerError && <p className={styles.serverError}>{propServerError}</p>}
+            </div>
+          ) : (
+            <div className={styles.addForm} style={{ opacity: 0.5, pointerEvents: 'none' }}>
+              <div className={styles.formGrid}>
+                <div className={styles.fieldGroup}>
+                  <span className={styles.fieldLabel}>Property Name</span>
+                  <div className={styles.previewInput}>{propForm.name || 'Enter name'}</div>
+                </div>
+                <div className={styles.fieldGroup}>
+                  <span className={styles.fieldLabel}>Total Area (ha)</span>
+                  <div className={styles.previewInput}>{propForm.totalAreaHa || '0.0'}</div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
 
         {/* ── Step 2: Paddocks ── */}
@@ -324,8 +459,12 @@ export default function Setup() {
         <button className={styles.backBtn} onClick={handleBack}>
           Back
         </button>
-        <button className={styles.continueBtn} onClick={handleContinue}>
-          Continue
+        <button
+          className={styles.continueBtn}
+          onClick={handleContinue}
+          disabled={step === 1 && propSaving}
+        >
+          {step === 1 && propSaving ? 'Creating…' : 'Continue'}
         </button>
       </footer>
     </div>
