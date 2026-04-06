@@ -2,6 +2,11 @@ import { Routes, Route, Navigate } from 'react-router-dom'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Setup from './pages/Setup'
+import StockFlow from './pages/StockFlow'
+import FeedDemand from './pages/FeedDemand'
+import Reports from './pages/Reports'
+import LogEvent from './pages/LogEvent'
+import ClosedPlan from './pages/ClosedPlan'
 import BottomNav from './components/BottomNav'
 
 const ComingSoon = ({ name }) => (
@@ -18,11 +23,11 @@ export default function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/dashboard" element={<Dashboard />} />
       <Route path="/setup" element={<Setup />} />
-      <Route path="/log-event" element={<ComingSoon name="Field Event Log" />} />
-      <Route path="/stock-flow" element={<ComingSoon name="Stock Flow Planner" />} />
-      <Route path="/feed-demand" element={<ComingSoon name="Feed Demand Summary" />} />
-      <Route path="/closed-plan" element={<ComingSoon name="Closed Season Grazing Plan" />} />
-      <Route path="/reports" element={<ComingSoon name="Reports" />} />
+      <Route path="/log-event" element={<LogEvent />} />
+      <Route path="/stock-flow" element={<StockFlow />} />
+      <Route path="/feed-demand" element={<FeedDemand />} />
+      <Route path="/closed-plan" element={<ClosedPlan />} />
+      <Route path="/reports" element={<Reports />} />
       <Route path="/admin/properties" element={<ComingSoon name="All Properties (Admin)" />} />
       <Route path="*" element={<Navigate to="/login" replace />} />
     </Routes>

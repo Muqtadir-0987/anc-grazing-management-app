@@ -10,10 +10,18 @@ A mobile-first web application built for Australian Natural Capital (ANC) as par
 
 ## What You Can Demo
 
-| Screen | What it shows |
-|---|---|
-| Login | Sign-in screen — enter any email and password to proceed |
-| Dashboard | Live property overview — SR:CC alert, metric cards, mob list, SR:CC ratio bar |
+All screens are fully built and wired with mock data — no backend required.
+
+| Screen | URL | What it shows |
+|---|---|---|
+| Login | `/login` | Sign-in screen — enter any email and password to proceed |
+| Dashboard | `/dashboard` | SR:CC alert, feed days remaining, mob list, metric cards |
+| Property & Paddock Setup | `/setup` | 3-step wizard — property details, paddocks, mobs |
+| Stock Flow Planner | `/stock-flow` | Monthly mob table with inline editing, LSU and KgDM calculations |
+| Feed Demand Summary | `/feed-demand` | Season totals, line chart, mob breakdown, export buttons |
+| Field Event Log | `/log-event` | Event type grid, mob + quantity form, offline queue indicator |
+| Closed Season Grazing Plan | `/closed-plan` | SR:CC ratio bar, paddock allocations, graze period preview |
+| Reports | `/reports` | Report type selector, preview panel, PDF + CSV export buttons |
 
 ---
 
