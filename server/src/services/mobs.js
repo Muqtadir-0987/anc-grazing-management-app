@@ -85,36 +85,66 @@ async function addStockFlowEntry(mobId, user, { stockClass: stockClassName, stoc
 }
 
 async function getFeedDemandSummary(propertyId) {
-  const mobs = await prisma.mob.findMany({
-    where: { propertyId },
-    include: {
-      stockFlowEntries: {
-        orderBy: [{ year: 'desc' }, { month: 'desc' }],
-        take: 1, // latest entry per mob for current demand
-      },
-    },
-  })
+  const [property, mobs, paddocks] = await Promise.all([
+    prisma.property.findUnique({ where: { id: propertyId } }),
+    prisma.mob.findMany({
+      where: { propertyId },
+      include: { stockFlowEntries: { orderBy: [{ year: 'asc' }, { month: 'asc' }] } },
+    }),
+    prisma.paddock.findMany({ where: { propertyId } }),
+  ])
 
   let totalLsu = 0
-  let totalKgdmDemand = 0
+  let dormantTotal = 0
+  let growingTotal = 0
 
   const mobSummaries = mobs.map((mob) => {
-    const latest = mob.stockFlowEntries[0]
-    if (latest) {
-      totalLsu += latest.lsu
-      totalKgdmDemand += latest.kgdmTotal
-    }
-    return {
-      mobId: mob.id,
-      mobName: mob.name,
-      lsu: latest?.lsu ?? 0,
-      kgdmDaily: latest?.kgdmTotal ?? 0,
-    }
+    let mobDormant = 0
+    let mobGrowing = 0
+    mob.stockFlowEntries.forEach((e) => {
+      if (e.seasonType === 'dormant') mobDormant += e.kgdmTotal
+      else mobGrowing += e.kgdmTotal
+    })
+    const latest = mob.stockFlowEntries[mob.stockFlowEntries.length - 1]
+    if (latest) totalLsu += latest.lsu
+    dormantTotal += mobDormant
+    growingTotal += mobGrowing
+    return { name: mob.name, dormant: Math.round(mobDormant), growing: Math.round(mobGrowing) }
   })
 
+  // Feed days remaining: total paddock KgDM / daily demand (latest entries sum)
+  const totalPaddockKgdm = paddocks.reduce((sum, p) => sum + p.totalKgdm, 0)
+  const latestDailyDemand = mobs.reduce((sum, mob) => {
+    const latest = mob.stockFlowEntries[mob.stockFlowEntries.length - 1]
+    return sum + (latest?.kgdmTotal ?? 0)
+  }, 0)
+  const feedDaysRemaining = latestDailyDemand > 0 ? Math.floor(totalPaddockKgdm / latestDailyDemand) : 0
+
+  // Period: earliest to latest entry across all mobs
+  const allEntries = mobs.flatMap((m) => m.stockFlowEntries)
+  const MONTH_NAMES = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec']
+  const periodFrom = allEntries.length
+    ? `${MONTH_NAMES[allEntries[0].month - 1]} ${allEntries[0].year}`
+    : '—'
+  const last = allEntries[allEntries.length - 1]
+  const periodTo = last ? `${MONTH_NAMES[last.month - 1]} ${last.year}` : '—'
+
+  // Season label periods
+  const dormantMonths = allEntries.filter((e) => e.seasonType === 'dormant')
+  const growingMonths = allEntries.filter((e) => e.seasonType === 'growing')
+  const dormantPeriod = dormantMonths.length ? `${dormantMonths.length} dormant month(s)` : 'No dormant entries'
+  const growingPeriod = growingMonths.length ? `${growingMonths.length} growing month(s)` : 'No growing entries'
+
   return {
+    propertyName: property?.name ?? '',
+    periodFrom,
+    periodTo,
+    dormantTotal: Math.round(dormantTotal),
+    growingTotal: Math.round(growingTotal),
+    dormantPeriod,
+    growingPeriod,
+    feedDaysRemaining,
     totalLsu: Math.round(totalLsu * 100) / 100,
-    totalKgdmDemand: Math.round(totalKgdmDemand * 100) / 100,
     mobs: mobSummaries,
   }
 }
