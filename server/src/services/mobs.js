@@ -16,12 +16,13 @@ async function listByProperty(propertyId) {
   return prisma.mob.findMany({
     where: { propertyId },
     orderBy: { name: 'asc' },
+    select: { id: true, propertyId: true, name: true, stockClasses: true, createdAt: true },
   })
 }
 
-async function create(propertyId, { name }) {
+async function create(propertyId, { name, stockClasses = [] }) {
   return prisma.mob.create({
-    data: { propertyId, name: name.trim() },
+    data: { propertyId, name: name.trim(), stockClasses },
   })
 }
 
@@ -35,22 +36,26 @@ async function getStockFlow(mobId, user) {
   if (user.role !== 'admin' && mob.propertyId !== user.propertyId) {
     throw Object.assign(new Error('Access denied.'), { status: 403 })
   }
-  return prisma.stockFlowEntry.findMany({
+  const entries = await prisma.stockFlowEntry.findMany({
     where: { mobId },
     include: { stockClass: true },
     orderBy: [{ year: 'asc' }, { month: 'asc' }],
   })
+  // Return stockClass as name string so the frontend can build consistent entry keys
+  return entries.map((e) => ({ ...e, stockClass: e.stockClass.name }))
 }
 
-async function addStockFlowEntry(mobId, user, { stockClassId, month, year, seasonType, numberOfAnimals, averageWeightKg }) {
+async function addStockFlowEntry(mobId, user, { stockClass: stockClassName, stockClassId, month, year, seasonType, numberOfAnimals, averageWeightKg }) {
   const mob = await prisma.mob.findUnique({ where: { id: mobId } })
   if (!mob) throw Object.assign(new Error('Mob not found.'), { status: 404 })
   if (user.role !== 'admin' && mob.propertyId !== user.propertyId) {
     throw Object.assign(new Error('Access denied.'), { status: 403 })
   }
 
-  // Validate weight range
-  const stockClass = await prisma.stockClass.findUnique({ where: { id: stockClassId } })
+  // Accept stock class by name or by ID
+  const stockClass = stockClassName
+    ? await prisma.stockClass.findFirst({ where: { name: stockClassName } })
+    : await prisma.stockClass.findUnique({ where: { id: stockClassId } })
   if (!stockClass) throw Object.assign(new Error('Stock class not found.'), { status: 400 })
 
   const weight = Number(averageWeightKg)
@@ -66,7 +71,7 @@ async function addStockFlowEntry(mobId, user, { stockClassId, month, year, seaso
   return prisma.stockFlowEntry.create({
     data: {
       mobId,
-      stockClassId,
+      stockClassId: stockClass.id,
       month: Number(month),
       year: Number(year),
       seasonType,

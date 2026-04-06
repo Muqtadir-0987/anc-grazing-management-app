@@ -16,9 +16,9 @@ router.get('/properties/:propertyId/mobs', requireAuth, requirePropertyAccess, a
 // POST /api/properties/:propertyId/mobs
 router.post('/properties/:propertyId/mobs', requireAuth, requirePropertyAccess, async (req, res, next) => {
   try {
-    const { name } = req.body
+    const { name, stockClasses } = req.body
     if (!name) return res.status(400).json({ error: 'Mob name is required.' })
-    const mob = await mobService.create(req.params.propertyId, { name })
+    const mob = await mobService.create(req.params.propertyId, { name, stockClasses })
     res.status(201).json(mob)
   } catch (err) {
     next(err)
@@ -48,12 +48,12 @@ router.get('/mobs/:id/stock-flow', requireAuth, async (req, res, next) => {
 // POST /api/mobs/:id/stock-flow
 router.post('/mobs/:id/stock-flow', requireAuth, async (req, res, next) => {
   try {
-    const { stockClassId, month, year, seasonType, numberOfAnimals, averageWeightKg } = req.body
-    if (!stockClassId || !month || !year || !seasonType || !numberOfAnimals || !averageWeightKg) {
+    const { stockClass, stockClassId, month, year, seasonType, numberOfAnimals, averageWeightKg } = req.body
+    if ((!stockClass && !stockClassId) || !month || !year || !seasonType || !numberOfAnimals || !averageWeightKg) {
       return res.status(400).json({ error: 'All stock flow fields are required.' })
     }
     const entry = await mobService.addStockFlowEntry(req.params.id, req.user, {
-      stockClassId, month, year, seasonType, numberOfAnimals, averageWeightKg,
+      stockClass, stockClassId, month, year, seasonType, numberOfAnimals, averageWeightKg,
     })
     res.status(201).json(entry)
   } catch (err) {

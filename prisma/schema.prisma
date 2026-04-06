@@ -78,11 +78,12 @@ model Paddock {
 }
 
 model Mob {
-  id         String   @id @default(uuid())
-  propertyId String
-  property   Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
-  name       String
-  createdAt  DateTime @default(now())
+  id           String   @id @default(uuid())
+  propertyId   String
+  property     Property @relation(fields: [propertyId], references: [id], onDelete: Cascade)
+  name         String
+  stockClasses String[] @default([])
+  createdAt    DateTime @default(now())
 
   stockFlowEntries StockFlowEntry[]
   stockEvents      StockEvent[]

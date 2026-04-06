@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth'
 import styles from './Setup.module.css'
 
+
 const STAC_OPTIONS = [3, 6, 9, 12]
 // KgDM/ha = STAC × 11.25  (display only — server recalculates on save)
 const kgdmPerHa = (stac) => stac * 11.25
@@ -24,7 +25,7 @@ const MONTHS = [
 ]
 
 export default function Setup() {
-  const { token, user } = useAuth()
+  const { token, user, login } = useAuth()
   const navigate = useNavigate()
 
   // Step 1 starts at 1 so the property is created before any paddocks
