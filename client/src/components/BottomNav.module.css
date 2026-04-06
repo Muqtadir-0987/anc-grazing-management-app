@@ -20,13 +20,14 @@
   align-items: center;
   justify-content: center;
   gap: 2px;
-  padding: 4px 12px;
+  padding: 4px 6px;
   border-radius: 24px;
   color: #78716c;
   text-decoration: none;
-  min-width: var(--touch-target);
+  min-width: 44px;
   min-height: var(--touch-target);
   transition: color 0.15s, background-color 0.15s;
+  flex: 1;
 }
 
 .item.active {
